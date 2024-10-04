@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.2">
+    <persistence-unit name="devsync">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>com.maven.model.User</class>
+        <properties>
+            <!-- Connexion à la base de données PostgreSQL -->
+            <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/devsync"/>
+            <property name="javax.persistence.jdbc.user" value="devsync"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
+
+            <!-- Hibernate configurations -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQLDialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/> <!-- Peut être 'create', 'update', 'validate' ou 'none' -->
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+        </properties>
+    </persistence-unit>
+</persistence>
