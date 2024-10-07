@@ -4,17 +4,27 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+<<<<<<< HEAD
     <groupId>com.maven</groupId>
     <artifactId>project_maven</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>project_maven</name>
+=======
+    <groupId>com.devsync</groupId>
+    <artifactId>DevSync</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <packaging>war</packaging>
+
+>>>>>>> 04af2d9 (Fix Servlets problems)
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+<<<<<<< HEAD
     <dependencies>
         <!-- Jakarta EE APIs -->
         <dependency>
@@ -45,14 +55,60 @@
         </dependency>
 
         <!-- Lombook dependency -->
+=======
+
+    <dependencies>
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>6.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.platform</groupId>
+            <artifactId>jakarta.jakartaee-api</artifactId>
+            <version>10.0.0</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.2.0.Final</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.7.3</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.web</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl</artifactId>
+            <version>3.0.1</version>
+        </dependency>
+        <!-- Lombok -->
+>>>>>>> 04af2d9 (Fix Servlets problems)
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.28</version>
             <scope>provided</scope>
         </dependency>
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 04af2d9 (Fix Servlets problems)
     </dependencies>
     <build>
         <finalName>project_maven</finalName>
@@ -66,6 +122,7 @@
                 </configuration>
             </plugin>
             <plugin>
+<<<<<<< HEAD
                 <groupId>org.owasp</groupId>
                 <artifactId>dependency-check-maven</artifactId>
                 <version>7.1.1</version>
@@ -79,14 +136,22 @@
             </plugin>
             <!-- Plugin pour déployer sur un serveur d'application comme JBoss/WildFly -->
             <plugin>
+=======
+>>>>>>> 04af2d9 (Fix Servlets problems)
                 <groupId>org.wildfly.plugins</groupId>
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <version>3.0.2.Final</version>
                 <configuration>
                     <hostname>localhost</hostname>
+<<<<<<< HEAD
                     <port>9990</port> <!-- Port d'administration par défaut de WildFly -->
                     <username>root</username> <!-- Utilisateur administrateur configuré dans WildFly -->
                     <password>root</password> <!-- Mot de passe de l'utilisateur admin -->
+=======
+                    <port>9990</port>
+                    <username>root</username>
+                    <password>root</password>
+>>>>>>> 04af2d9 (Fix Servlets problems)
                 </configuration>
             </plugin>
         </plugins>
