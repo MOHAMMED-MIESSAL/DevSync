@@ -30,7 +30,7 @@ public class UserServlet extends HttpServlet {
         if (userId == null) {
             List<User> users = userService.findAll();
             request.setAttribute("users", users);
-            request.getRequestDispatcher("/index.jsp").forward(request, response);
+            request.getRequestDispatcher("/listUser.jsp").forward(request, response);
         } else {
             Optional<User> optionalUser = userService.findById(Long.parseLong(userId));
 
@@ -61,8 +61,8 @@ public class UserServlet extends HttpServlet {
             String lastName = request.getParameter("lastName");
             String email = request.getParameter("email");
 
-            String isManagerInput = request.getParameter("isManager");
-            boolean isManager = Objects.equals(isManagerInput, "true");
+            boolean isManager = request.getParameter("isManager") != null;
+
 
             User user = new User(Long.parseLong(userId), username, password, firstName, lastName, email, isManager);
             userService.update(user);

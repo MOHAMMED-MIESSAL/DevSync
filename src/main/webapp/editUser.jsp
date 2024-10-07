@@ -45,8 +45,8 @@
             </div>
             <div>
                 <label>Is Manager</label>
-                <input type="checkbox" name="isManager" ${userToEdit.isManager ? 'checked' : ''}
-                       class="form-checkbox h-5 w-5 text-orange-600"/>
+                <input type="checkbox" name="isManager" ${userToEdit.isManager ? 'checked' : ''} class="form-checkbox h-5 w-5 text-orange-600"/>
+
             </div>
         </div>
 
