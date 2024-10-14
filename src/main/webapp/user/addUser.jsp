@@ -6,13 +6,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Management</title>
-  <link rel="stylesheet" href="./assets/css/tailwind.output.css"/>
+  <link rel="stylesheet" href="assets/css/tailwind.output.css"/>
 </head>
 <body class="bg-gray-300 dark:bg-gray-900">
 
-<%@include file="WEB-INF/includes/header.jsp" %>
+<%@include file="../WEB-INF/includes/header.jsp" %>
 
-<%@include file="WEB-INF/includes/sidebar.jsp" %>
+<%@include file="../WEB-INF/includes/sidebar.jsp" %>
+
 <main id="main" class="mt-32 h-screen px-28">
 
   <form action="users" method="post" class="my-6">
@@ -67,10 +68,10 @@
 
 </main>
 
-<%@include file="WEB-INF/includes/footer.jsp" %>
+<%@include file="../WEB-INF/includes/footer.jsp" %>
 
-<script src="./assets/js/navigation.js"></script>
-<script src="./assets/js/navbar.js"></script>
-<script src="./assets/js/theme.js"></script>
+<script src="assets/js/navigation.js"></script>
+<script src="assets/js/navbar.js"></script>
+<script src="assets/js/theme.js"></script>
 </body>
 </html>
