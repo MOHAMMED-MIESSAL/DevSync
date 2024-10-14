@@ -5,6 +5,7 @@ import com.devsync.repository.interfaces.UserRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.Persistence;
 
 import java.util.List;
@@ -19,12 +20,28 @@ public class UserRepositoryImpl implements UserRepository {
         em = emf.createEntityManager();
     }
 
+    @Override
+    public List<User> findAll() {
+        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
+    }
 
     @Override
     public void create(User user) {
         try {
             em.getTransaction().begin();
             em.persist(user);
+            em.getTransaction().commit();
+        } catch (Exception e) {
+            em.getTransaction().rollback();
+            throw e;
+        }
+    }
+
+    @Override
+    public void update(User user) {
+        try {
+            em.getTransaction().begin();
+            em.merge(user);
             em.getTransaction().commit();
         } catch (Exception e) {
             em.getTransaction().rollback();
@@ -48,25 +65,24 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAll() {
-        return em.createQuery("SELECT u FROM User u", User.class).getResultList();
-    }
-
-    @Override
     public Optional<User> findById(Long userId) {
         User user = em.find(User.class, userId);
         return Optional.ofNullable(user);
     }
 
-    @Override
-    public void update(User user) {
+
+    public Optional<User> findByUsernameAndPassword(String username, String password) {
         try {
-            em.getTransaction().begin();
-            em.merge(user);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            em.getTransaction().rollback();
-            throw e;
+            User user = em.createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password", User.class)
+                    .setParameter("username", username)
+                    .setParameter("password", password)
+                    .getSingleResult();
+            return Optional.ofNullable(user);
+        } catch (NoResultException e) {
+            return Optional.empty(); // Si aucun utilisateur trouvé, renvoie un Optional vide
         }
     }
+
+
+
 }

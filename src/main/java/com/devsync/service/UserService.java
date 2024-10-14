@@ -42,4 +42,9 @@ public class UserService {
             throw new RuntimeException("User not found for ID: " + id);
         }
     }
+
+    public Optional<User> findByUsernameAndPassword(String username, String password) {
+        return userRepository.findByUsernameAndPassword(username, password);
+    }
+
 }

@@ -30,20 +30,23 @@ public class UserServlet extends HttpServlet {
         if (userId == null) {
             List<User> users = userService.findAll();
             request.setAttribute("users", users);
-            request.getRequestDispatcher("/listUser.jsp").forward(request, response);
+            request.getRequestDispatcher("/user/listUser.jsp").forward(request, response);
+        } else if ("new".equals(userId)) {
+            request.getRequestDispatcher("/user/addUser.jsp").forward(request, response);
         } else {
             Optional<User> optionalUser = userService.findById(Long.parseLong(userId));
 
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 request.setAttribute("userToEdit", user);
-                request.getRequestDispatcher("/editUser.jsp").forward(request, response);
+                request.getRequestDispatcher("/user/editUser.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "User not found");
                 request.getRequestDispatcher("/erreur.jsp").forward(request, response);
             }
         }
     }
+
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
@@ -62,7 +65,6 @@ public class UserServlet extends HttpServlet {
             String email = request.getParameter("email");
 
             boolean isManager = request.getParameter("isManager") != null;
-
 
             User user = new User(Long.parseLong(userId), username, password, firstName, lastName, email, isManager);
             userService.update(user);
