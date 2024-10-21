@@ -55,11 +55,15 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public Optional<Tag> findByName(String name) {
-
+        try {
             Tag tag = em.createQuery("SELECT t FROM Tag t WHERE t.name = :name", Tag.class)
                     .setParameter("name", name)
                     .getSingleResult();
             return Optional.of(tag);
+        } catch (jakarta.persistence.NoResultException e) {
+            return Optional.empty();
+        }
     }
+
 
 }
