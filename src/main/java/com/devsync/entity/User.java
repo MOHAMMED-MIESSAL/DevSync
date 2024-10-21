@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name ="users")
+@Table(name ="app_user")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +32,13 @@ public class User {
     @Column(name = "is_manager", nullable = false)
     private Boolean isManager;
 
-    public User(String username, String password, String firstName, String lastName, String email, Boolean isManager) {
+    @Column(name = "daily_tokens", nullable = false)
+    private int dailyTokens = 2;
+
+    @Column(name = "monthly_tokens", nullable = false)
+    private int monthlyTokens = 1;
+
+    public User(String username, String firstName, String lastName, String email, String password, Boolean isManager) {
         this.username = username;
         this.password = password;
         this.firstName = firstName;
@@ -41,7 +47,7 @@ public class User {
         this.isManager = isManager;
     }
 
-    public User(Long id, String username, String password, String firstName, String lastName, String email, Boolean isManager) {
+    public User(Long id, String username, String firstName, String lastName, String email, String password, Boolean isManager) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -56,6 +62,16 @@ public class User {
 
     @Override
     public String toString() {
-        return firstName + " " + lastName;
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                ", isManager=" + isManager +
+                ", dailyTokens=" + dailyTokens +
+                ", monthlyTokens=" + monthlyTokens +
+                '}';
     }
 }

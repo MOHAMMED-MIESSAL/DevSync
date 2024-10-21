@@ -12,8 +12,10 @@ import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.Optional;
 
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+
+@WebServlet("/")
+
+public class AuthServlet extends HttpServlet {
 
     private UserService userService = new UserService(); // Injecter ce service serait mieux
 
@@ -22,9 +24,9 @@ public class LoginServlet extends HttpServlet {
         userService = new UserService();
     }
 
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // Redirection vers la page login.jsp pour le formulaire
         request.getRequestDispatcher("/login.jsp").forward(request, response);
     }
 
@@ -34,25 +36,24 @@ public class LoginServlet extends HttpServlet {
         String password = request.getParameter("password");
 
         try {
-            // Authentifie l'utilisateur en vérifiant le nom d'utilisateur et le mot de passe
             Optional<User> optionalUser = userService.findByUsernameAndPassword(username, password);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
-                // Stocker l'utilisateur connecté dans la session
+
                 HttpSession session = request.getSession();
                 session.setAttribute("loggedUser", user);
 
-                // Redirection après authentification réussie
-                response.sendRedirect(request.getContextPath() + "/taches");
+                response.sendRedirect(request.getContextPath() + "/tasks");
             } else {
-                // En cas d'échec, afficher un message d'erreur
+
                 request.setAttribute("error", "Invalid username or password.");
                 request.getRequestDispatcher("/login.jsp").forward(request, response);
             }
         } catch (Exception e) {
-            // En cas d'exception, afficher un message d'erreur
-            request.setAttribute("error", e.getMessage());
+
+            request.setAttribute("error", "An error occurred during login. Please try again.");
             request.getRequestDispatcher("/login.jsp").forward(request, response);
         }
     }
+
 }

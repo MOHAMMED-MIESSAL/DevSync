@@ -9,61 +9,90 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
-
 @Entity
-@Table(name = "taches")
 @Getter
 @Setter
 public class Task {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name", nullable = false, unique = true, length = 50)
+    @Column(name = "task_name", nullable = false, length = 50)
     private String name;
 
+    @Column(name = "task_description", nullable = false, length = 250)
+    private String description;
+
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "task_status", nullable = false)
     private Status status;
 
-    @Column(name = "date_creation", nullable = false)
+
+    @Column(name = "dateEcheance", nullable = false)
+    private LocalDateTime dateEcheance;
+
+    @Column(name = "dateCreation", nullable = false, updatable = false)
     private LocalDateTime dateCreation;
 
-    @ManyToOne
-    @JoinColumn(name = "utilisateur_affecte_id", nullable = false)
-    private User utilisateurAffecte;
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
+    private User userAffected;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(nullable = false)
     private User creator;
 
-    // Many-to-Many relation with tags
+    // Relation Many-to-Many avec les tags
     @ManyToMany
     @JoinTable(
-            name = "tache_tags",
-            joinColumns = @JoinColumn(name = "tache_id"),
+            name = "tasks_tags",
+            joinColumns = @JoinColumn(name = "task_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<Tag> tags = new HashSet<>();
 
-    public Task(Long id, User creator, LocalDateTime dateCreation, String name, Status status, User utilisateurAffecte) {
-        this.creator = creator;
-        this.dateCreation = dateCreation;
-        this.id = id;
-        this.name = name;
-        this.status = status;
-        this.utilisateurAffecte = utilisateurAffecte;
-    }
 
-    public Task(Long id, Optional<User> creator, LocalDateTime dateCreation, String name, Status status, Optional<User> utilisateurAffecte) {
-        this.creator = creator.get();
-        this.dateCreation = dateCreation;
+    public Task(Long id, User creator, LocalDateTime dateEcheance, String description, String name, Status status, Set<Tag> tags, User userAffected) {
         this.id = id;
+        this.creator = creator;
+        this.dateEcheance = dateEcheance;
+        this.dateCreation = LocalDateTime.now();
+        this.description = description;
         this.name = name;
         this.status = status;
-        this.utilisateurAffecte = utilisateurAffecte.get();
+        this.tags = tags;
+        this.userAffected = userAffected;
     }
 
     public Task() {
+        this.dateCreation = LocalDateTime.now();
+    }
+
+    public Task(User creator, LocalDateTime dateEcheance, String description, String name, Status status, Set<Tag> tags, User userAffected) {
+        this.creator = creator;
+        this.dateEcheance = dateEcheance;
+        this.dateCreation = LocalDateTime.now();
+        this.description = description;
+        this.name = name;
+        this.status = status;
+        this.tags = tags;
+        this.userAffected = userAffected;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", dateEcheance=" + dateEcheance +
+                ", dateCreation=" + dateCreation +
+                ", userAffected=" + userAffected +
+                ", creator=" + creator +
+                ", tags=" + tags +
+                '}';
     }
 }

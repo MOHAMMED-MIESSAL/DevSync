@@ -10,7 +10,6 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "tags")
 public class Tag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,6 +27,25 @@ public class Tag {
 
     public Tag(Long id, String name) {
         this.id = id;
-        this.name = name;
+        setName(name);
+    }
+
+    public Tag(String name) {
+        setName(name);
+    }
+
+    public void setName(String name) {
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Le nom du tag ne peut pas être vide.");
+        }
+        this.name = name.trim();
+    }
+
+    @Override
+    public String toString() {
+        return "Tag{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

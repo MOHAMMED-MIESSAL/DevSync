@@ -1,6 +1,7 @@
 package com.devsync.repository.implementations;
 
 import com.devsync.entity.Task;
+import com.devsync.entity.User;
 import com.devsync.repository.interfaces.TaskRepository;
 
 import jakarta.persistence.EntityManager;
@@ -67,5 +68,12 @@ public class TaskRepositoryImpl implements TaskRepository {
     public Optional<Task> findById(Long tacheId) {
         Task task = em.find(Task.class, tacheId);
         return Optional.ofNullable(task);
+    }
+
+    @Override
+    public List<Task> findTasksByUser(User user) {
+        return em.createQuery("SELECT t FROM Task t WHERE t.userAffected = :user", Task.class)
+                .setParameter("user", user)
+                .getResultList();
     }
 }

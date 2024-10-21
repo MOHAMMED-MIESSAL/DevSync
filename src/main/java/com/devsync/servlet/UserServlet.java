@@ -30,16 +30,18 @@ public class UserServlet extends HttpServlet {
         if (userId == null) {
             List<User> users = userService.findAll();
             request.setAttribute("users", users);
-            request.getRequestDispatcher("/user/listUser.jsp").forward(request, response);
-        } else if ("new".equals(userId)) {
-            request.getRequestDispatcher("/user/addUser.jsp").forward(request, response);
-        } else {
+            request.getRequestDispatcher("/User/listUser.jsp").forward(request, response);
+        }
+        else if ("new".equals(userId)) {
+            request.getRequestDispatcher("/User/addUser.jsp").forward(request, response);
+        }
+        else {
             Optional<User> optionalUser = userService.findById(Long.parseLong(userId));
 
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 request.setAttribute("userToEdit", user);
-                request.getRequestDispatcher("/user/editUser.jsp").forward(request, response);
+                request.getRequestDispatcher("/User/editUser.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "User not found");
                 request.getRequestDispatcher("/erreur.jsp").forward(request, response);
@@ -53,11 +55,12 @@ public class UserServlet extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("delete".equals(action)) {
-            String userId = request.getParameter("userId");
-            userService.delete(Long.parseLong(userId));
+            String id = request.getParameter("id");
+            userService.delete(Long.parseLong(id));
             response.sendRedirect("users");
+
         } else if ("update".equals(action)) {
-            String userId = request.getParameter("userId");
+            String id = request.getParameter("id");
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             String firstName = request.getParameter("firstName");
@@ -66,7 +69,7 @@ public class UserServlet extends HttpServlet {
 
             boolean isManager = request.getParameter("isManager") != null;
 
-            User user = new User(Long.parseLong(userId), username, password, firstName, lastName, email, isManager);
+            User user = new User(Long.parseLong(id), username, firstName, lastName, email, password, isManager);
             userService.update(user);
             response.sendRedirect("users");
         } else {
@@ -79,7 +82,7 @@ public class UserServlet extends HttpServlet {
             String isManagerInput = request.getParameter("isManager");
             boolean isManager = Objects.equals(isManagerInput, "true");
 
-            User user = new User(username, password, firstName, lastName, email, isManager);
+            User user = new User(username,firstName, lastName, email, password, isManager);
             userService.create(user);
             response.sendRedirect("users");
         }

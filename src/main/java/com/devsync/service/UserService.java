@@ -27,6 +27,9 @@ public class UserService {
     }
 
     public void create(User user) {
+        if (user.getUsername() == null || user.getUsername().isEmpty()) {
+            throw new RuntimeException("Username cannot be empty");
+        }
         userRepository.create(user);
     }
 
@@ -45,6 +48,20 @@ public class UserService {
 
     public Optional<User> findByUsernameAndPassword(String username, String password) {
         return userRepository.findByUsernameAndPassword(username, password);
+    }
+
+
+    // Méthode pour réinitialiser les jetons mensuels
+    public void resetMonthlyTokens() {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+            // Vérifie si les jetons mensuels sont inférieurs à 1
+            if (user.getMonthlyTokens() < 1) {
+                user.setMonthlyTokens(1); // Réinitialise à 1
+            }
+
+            userRepository.update(user);
+        }
     }
 
 }
